@@ -108,6 +108,31 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: rgba(139, 92, 246, 0.6);
         }
+        /* Lógica da Tabela de Comparação (Mobile) */
+        @media (max-width: 1023px) {
+            .mobile-compare-table {
+                min-width: 100% !important; /* Remove o scroll horizontal no celular */
+            }
+            /* Esconde todas as colunas de planos por padrão */
+            .mobile-compare-table th:not(:first-child),
+            .mobile-compare-table td:not(:first-child) {
+                display: none !important;
+            }
+            
+            /* Mostra apenas a coluna do plano selecionado */
+            .mobile-compare-table.show-p1 th:nth-child(2), .mobile-compare-table.show-p1 td:nth-child(2),
+            .mobile-compare-table.show-p2 th:nth-child(3), .mobile-compare-table.show-p2 td:nth-child(3),
+            .mobile-compare-table.show-p3 th:nth-child(4), .mobile-compare-table.show-p3 td:nth-child(4),
+            .mobile-compare-table.show-p4 th:nth-child(5), .mobile-compare-table.show-p4 td:nth-child(5),
+            .mobile-compare-table.show-p5 th:nth-child(6), .mobile-compare-table.show-p5 td:nth-child(6),
+            .mobile-compare-table.show-p6 th:nth-child(7), .mobile-compare-table.show-p6 td:nth-child(7) {
+                display: table-cell !important;
+            }
+
+            /* Ajuste perfeito de largura e fonte para caber na tela do celular */
+            .mobile-compare-table th:first-child, .mobile-compare-table td:first-child { width: 60% !important; font-size: 0.8rem; padding-left: 0.5rem; }
+            .mobile-compare-table th:not(:first-child), .mobile-compare-table td:not(:first-child) { width: 40% !important; font-size: 0.8rem; }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-500 selection:text-white">
@@ -339,8 +364,23 @@
                 <p class="text-gray-400 max-w-2xl mx-auto">Veja linha por linha por que oferecemos a tecnologia mais avançada e o melhor custo-benefício do mercado imobiliário.</p>
             </div>
 
+            <div class="flex lg:hidden overflow-x-auto gap-3 pb-4 mb-6 custom-scrollbar snap-x reveal-up" id="mobile-tabs">
+                <button class="plan-tab snap-start shrink-0 px-5 py-2.5 rounded-xl font-bold border transition-colors bg-white/5 border-white/10 text-gray-400" data-target="show-p1">Starter</button>
+                <button class="plan-tab snap-start shrink-0 px-5 py-2.5 rounded-xl font-bold border transition-colors bg-white/5 border-white/10 text-gray-400" data-target="show-p2">Basic</button>
+                <button class="plan-tab active snap-start shrink-0 px-5 py-2.5 rounded-xl font-bold border transition-colors bg-brand-600 border-brand-500 text-white relative shadow-lg shadow-brand-500/20" data-target="show-p3">
+                    Profissional
+                    <span class="absolute -top-1 -right-1 flex h-3 w-3 tab-ping">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-500 border border-black"></span>
+                    </span>
+                </button>
+                <button class="plan-tab snap-start shrink-0 px-5 py-2.5 rounded-xl font-bold border transition-colors bg-white/5 border-white/10 text-gray-400" data-target="show-p4">Business</button>
+                <button class="plan-tab snap-start shrink-0 px-5 py-2.5 rounded-xl font-bold border transition-colors bg-white/5 border-white/10 text-gray-400" data-target="show-p5">Premium</button>
+                <button class="plan-tab snap-start shrink-0 px-5 py-2.5 rounded-xl font-bold border transition-colors bg-white/5 border-white/10 text-gray-400" data-target="show-p6">Elite</button>
+            </div>
+
             <div class="overflow-x-auto xl:overflow-visible reveal-up pb-8 custom-scrollbar">
-                <table class="w-full text-left border-collapse min-w-[1000px]">
+                <table id="compare-table-content" class="w-full text-left border-collapse min-w-full lg:min-w-[1000px] mobile-compare-table show-p3 transition-all duration-300">
                     <thead>
                         <tr>
                             <th class="p-4 bg-[#050505] sticky top-20 left-0 z-40 w-[25%] border-b border-white/10 shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]"></th>
@@ -684,6 +724,32 @@
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 if(isMenuOpen) toggleMenu();
+            });
+        });
+        // Lógica do Carrossel de Comparação Mobile
+        const planTabs = document.querySelectorAll('.plan-tab');
+        const compareTable = document.getElementById('compare-table-content');
+
+        planTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // 1. Resetar estilo de todos os botões
+                planTabs.forEach(t => {
+                    t.classList.remove('bg-brand-600', 'border-brand-500', 'text-white', 'shadow-lg', 'shadow-brand-500/20');
+                    t.classList.add('bg-white/5', 'border-white/10', 'text-gray-400');
+                    // Esconde a luz verde/roxa piscante
+                    const ping = t.querySelector('.tab-ping');
+                    if(ping) ping.classList.add('hidden');
+                });
+
+                // 2. Acender apenas o botão clicado
+                tab.classList.remove('bg-white/5', 'border-white/10', 'text-gray-400');
+                tab.classList.add('bg-brand-600', 'border-brand-500', 'text-white', 'shadow-lg', 'shadow-brand-500/20');
+                const ping = tab.querySelector('.tab-ping');
+                if(ping) ping.classList.remove('hidden');
+
+                // 3. Mudar a classe da tabela para mostrar a coluna correspondente
+                // Ex: Se clicou no Starter (show-p1), a tabela passa a esconder todos e exibir a coluna 1!
+                compareTable.className = `w-full text-left border-collapse min-w-full lg:min-w-[1000px] mobile-compare-table transition-all duration-300 ${tab.getAttribute('data-target')}`;
             });
         });
     </script>
