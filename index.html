@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imobiliária SaaS & CRM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            900: '#4c1d95',
+                            950: '#2e1065',
+                        },
+                        dark: {
+                            bg: '#050505',
+                            card: '#111111',
+                            border: '#222222'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #a78bfa, #c084fc, #e879f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .border-gradient {
+            position: relative;
+            background: #111;
+            border-radius: 1rem;
+            z-index: 1;
+        }
+        .border-gradient::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 1rem;
+            background: linear-gradient(45deg, #333, #111, #333);
+            z-index: -1;
+            transition: background 0.3s ease;
+        }
+        .border-gradient:hover::before {
+            background: linear-gradient(45deg, #8b5cf6, #c084fc, #8b5cf6);
+        }
+        .pricing-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .pricing-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+            z-index: 20;
+        }
+        .highlight-card::before {
+            background: linear-gradient(45deg, #8b5cf6, #e879f9, #8b5cf6);
+        }
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.7);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        /* Linha de progresso no topo */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(to right, #8b5cf6, #e879f9);
+            width: 0%;
+            z-index: 100;
+        }
+        /* Custom Scrollbar para a Tabela */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.6);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="building-2" class="w-8 h-8 text-brand-500"></i>
+                <span class="font-bold text-xl tracking-tight">Imobi<span class="text-brand-500">SaaS</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                <a href="#features" class="hover:text-white transition-colors">Recursos</a>
+                <a href="#pricing" class="hover:text-white transition-colors">Planos</a>
+                <a href="#contact" class="hover:text-white transition-colors">Contato</a>
+            </div>
+            <button class="bg-white text-black px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
+                Começar Agora
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="relative pt-40 pb-20 px-6 overflow-hidden flex flex-col items-center text-center min-h-screen justify-center">
+        <!-- Background glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-600/20 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-brand-400 mb-8 reveal-up">
+            <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+            Plataforma SaaS + CRM Imobiliário
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-bold tracking-tighter max-w-4xl mb-6 reveal-up" style="line-height: 1.1;">
+            O Futuro da Gestão Imobiliária é <span class="gradient-text">Inteligente</span>
+        </h1>
+        
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mb-10 reveal-up">
+            Escale suas vendas com um CRM poderoso, gamificação para corretores e IA de atendimento. Tudo em uma plataforma ultra-rápida.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row items-center gap-4 reveal-up">
+            <a href="#pricing" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-4 rounded-full font-semibold transition-all flex items-center gap-2">
+                Ver Planos <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+            <a href="#contact" class="px-8 py-4 rounded-full font-semibold border border-white/10 hover:bg-white/5 transition-all flex items-center gap-2">
+                Falar com Consultor
+            </a>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-24 px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">Diferenciais <span class="gradient-text">Exclusivos</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Tecnologia de ponta para otimizar cada etapa do seu funil de vendas.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Feature 1 -->
+                <div class="border-gradient p-8 reveal-up">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/20 flex items-center justify-center mb-6 text-brand-400">
+                        <i data-lucide="kanban" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">CRM Inteligente</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Gestão de Leads com Kanban e histórico completo. Totalmente integrado ao Supabase para dados em tempo real e segurança máxima.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="border-gradient p-8 reveal-up">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/20 flex items-center justify-center mb-6 text-brand-400">
+                        <i data-lucide="target" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Sistema de Gamificação</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Recompensas e métricas dinâmicas para corretores. Aumente a produtividade da sua equipe transformando metas em conquistas.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="border-gradient p-8 reveal-up">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/20 flex items-center justify-center mb-6 text-brand-400">
+                        <i data-lucide="bot" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">IA de Atendimento</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Assistente inteligente para triagem de leads 24/7. Qualifique contatos automaticamente antes mesmo de chegarem ao corretor.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="border-gradient p-8 reveal-up">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/20 flex items-center justify-center mb-6 text-brand-400">
+                        <i data-lucide="zap" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Performance Ultra-Rápida</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Construído com React, TypeScript e Tailwind. Experiência fluida e carregamento instantâneo para não perder nenhuma venda.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-24 px-6 relative bg-dark-card/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">Planos que <span class="gradient-text">Esmagam a Concorrência</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto mb-8">Escolha a flexibilidade ideal para o seu momento. Mais inteligência e gestão completa em qualquer nível.</p>
+                
+                <div class="flex items-center justify-center gap-4 font-mono text-sm reveal-up">
+                    <span id="label-mensal" class="text-white">Mensal</span>
+                    <button id="billing-toggle" class="w-14 h-7 bg-brand-600 rounded-full relative transition-colors focus:outline-none cursor-pointer">
+                        <div id="toggle-knob" class="w-5 h-5 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
+                    </button>
+                    <span id="label-anual" class="text-gray-500">Anual <span class="text-brand-400 text-xs ml-1">-15%</span></span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="pricing-grid">
+                
+                <div class="border-gradient pricing-card p-6 flex flex-col">
+                    <div class="text-brand-400 font-mono text-xs mb-2 uppercase tracking-wider">🥉 Starter</div>
+                    <div class="text-3xl font-bold mb-2">R$ <span class="price-val" data-monthly="54,90" data-annual="46,65">54,90</span><span class="text-sm text-gray-500 font-normal">/mês</span></div>
+                    <p class="text-gray-400 text-sm mb-6 border-b border-white/10 pb-4">Melhor que o "Básico" do mercado.</p>
+                    <ul class="space-y-3 mb-8 flex-1 text-sm text-gray-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">50</strong> Imóveis</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">40</strong> Fotos por imóvel</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">2</strong> Usuários do Sistema</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">50</strong> Descrições com IA</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Site Premium Exclusivo</li>
+                    </ul>
+                    <button class="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Começar Starter</button>
+                </div>
+
+                <div class="border-gradient pricing-card p-6 flex flex-col">
+                    <div class="text-brand-400 font-mono text-xs mb-2 uppercase tracking-wider">🥈 Basic</div>
+                    <div class="text-3xl font-bold mb-2">R$ <span class="price-val" data-monthly="74,90" data-annual="63,65">74,90</span><span class="text-sm text-gray-500 font-normal">/mês</span></div>
+                    <p class="text-gray-400 text-sm mb-6 border-b border-white/10 pb-4">A verdadeira evolução começa aqui.</p>
+                    <ul class="space-y-3 mb-8 flex-1 text-sm text-gray-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">400</strong> Imóveis</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">60</strong> Fotos por imóvel</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">5</strong> Usuários do Sistema</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">200</strong> Descrições com IA</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> CRM Kanban Integrado</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Esteira de Leads</li>
+                    </ul>
+                    <button class="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Começar Basic</button>
+                </div>
+
+                <div class="border-gradient highlight-card pricing-card p-6 flex flex-col relative transform lg:scale-105 z-10" id="pro-card">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Mais Popular</div>
+                    <div class="text-brand-400 font-mono text-xs mb-2 uppercase tracking-wider">⭐ Profissional</div>
+                    <div class="text-3xl font-bold mb-2">R$ <span class="price-val" data-monthly="119,90" data-annual="101,90">119,90</span><span class="text-sm text-gray-500 font-normal">/mês</span></div>
+                    <p class="text-gray-400 text-sm mb-6 border-b border-white/10 pb-4">Engajamento e domínio de mercado.</p>
+                    <ul class="space-y-3 mb-8 flex-1 text-sm text-gray-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">1.000</strong> Imóveis</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Fotos <strong class="text-white">Ilimitadas</strong></li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">8</strong> Usuários do Sistema</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">600</strong> Descrições com IA</li>
+                        <li class="flex items-start gap-2"><i data-lucide="target" class="w-4 h-4 text-yellow-400 mt-1"></i> <span class="text-white font-medium">Módulo de Gamificação<br/><span class="text-xs text-brand-400 font-normal">Motive sua equipe de vendas</span></span></li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Domínio Grátis (1º ano)</li>
+                    </ul>
+                    <button class="w-full py-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white transition-colors font-medium cursor-pointer shadow-lg shadow-brand-500/20">Assinar Profissional</button>
+                </div>
+
+                <div class="border-gradient pricing-card p-6 flex flex-col">
+                    <div class="text-brand-400 font-mono text-xs mb-2 uppercase tracking-wider">💼 Business</div>
+                    <div class="text-3xl font-bold mb-2">R$ <span class="price-val" data-monthly="179,90" data-annual="152,90">179,90</span><span class="text-sm text-gray-500 font-normal">/mês</span></div>
+                    <p class="text-gray-400 text-sm mb-6 border-b border-white/10 pb-4">Para quem leva a gestão a sério.</p>
+                    <ul class="space-y-3 mb-8 flex-1 text-sm text-gray-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">2.000</strong> Imóveis</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">12</strong> Usuários do Sistema</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">1.000</strong> Descrições com IA</li>
+                        <li class="flex items-start gap-2"><i data-lucide="file-signature" class="w-4 h-4 text-green-400 mt-1"></i> <span class="text-white font-medium">Contratos e Finanças<br/><span class="text-xs text-gray-400 font-normal">Gestão completa e exclusiva</span></span></li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Dashboard Financeiro</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Automação de E-mail/WhatsApp</li>
+                    </ul>
+                    <button class="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Assinar Business</button>
+                </div>
+
+                <div class="border-gradient pricing-card p-6 flex flex-col">
+                    <div class="text-brand-400 font-mono text-xs mb-2 uppercase tracking-wider">🚀 Premium</div>
+                    <div class="text-3xl font-bold mb-2">R$ <span class="price-val" data-monthly="249,90" data-annual="212,40">249,90</span><span class="text-sm text-gray-500 font-normal">/mês</span></div>
+                    <p class="text-gray-400 text-sm mb-6 border-b border-white/10 pb-4">Performance máxima e IA avançada.</p>
+                    <ul class="space-y-3 mb-8 flex-1 text-sm text-gray-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">3.500</strong> Imóveis</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">20</strong> Usuários do Sistema</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> <strong class="text-white">1.450</strong> Descrições com IA</li>
+                        <li class="flex items-start gap-2"><i data-lucide="bot" class="w-4 h-4 text-purple-400 mt-1"></i> <span class="text-white font-medium">IA Aura Liberada<br/><span class="text-xs text-gray-400 font-normal">Atendimento 24/7 de Leads</span></span></li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Módulo de Contratos Completo</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> API de Integração Avançada</li>
+                    </ul>
+                    <button class="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Assinar Premium</button>
+                </div>
+
+                <div class="border-gradient pricing-card p-6 flex flex-col">
+                    <div class="text-brand-400 font-mono text-xs mb-2 uppercase tracking-wider">👑 Elite</div>
+                    <div class="text-3xl font-bold mb-2">R$ <span class="price-val" data-monthly="349,90" data-annual="297,40">349,90</span><span class="text-sm text-gray-500 font-normal">/mês</span></div>
+                    <p class="text-gray-400 text-sm mb-6 border-b border-white/10 pb-4">O pacote definitivo sem limitações.</p>
+                    <ul class="space-y-3 mb-8 flex-1 text-sm text-gray-300">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Imóveis <strong class="text-white">Ilimitados</strong></li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Usuários <strong class="text-white">Ilimitados</strong></li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> IA Descrições <strong class="text-white">Ilimitadas</strong></li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> IA Aura Prioritária</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Contratos, Finanças e Gamificação</li>
+                        <li class="flex items-start gap-2"><i data-lucide="headset" class="w-4 h-4 text-brand-500 mt-1"></i> <span class="text-white font-medium">Suporte VIP 24h<br/><span class="text-xs text-gray-400 font-normal">Atendimento no WhatsApp</span></span></li>
+                    </ul>
+                    <button class="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Assinar Elite</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!--Comparação dos Planos-->
+    <section id="compare-plans" class="py-24 px-6 relative border-t border-white/5 bg-[#050505]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">Compare os <span class="gradient-text">Planos em Detalhes</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Veja linha por linha por que oferecemos a tecnologia mais avançada e o melhor custo-benefício do mercado imobiliário.</p>
+            </div>
+
+            <div class="overflow-x-auto xl:overflow-visible reveal-up pb-8 custom-scrollbar">
+                <table class="w-full text-left border-collapse min-w-[1000px]">
+                    <thead>
+                        <tr>
+                            <th class="p-4 bg-[#050505] sticky top-20 left-0 z-40 w-[25%] border-b border-white/10 shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]"></th>
+                            
+                            <th class="p-4 bg-[#050505] sticky top-20 z-30 text-center font-mono border-b border-white/10 w-[12.5%] min-w-[140px] shadow-sm">
+                                <div class="text-xs uppercase tracking-wider text-gray-400 mb-1">Starter</div>
+                                <div class="text-xl font-bold text-white leading-tight">R$ <span class="price-val" data-monthly="54,90" data-annual="46,65">54,90</span></div>
+                            </th>
+                            
+                            <th class="p-4 bg-[#050505] sticky top-20 z-30 text-center font-mono border-b border-white/10 w-[12.5%] min-w-[140px] shadow-sm">
+                                <div class="text-xs uppercase tracking-wider text-gray-400 mb-1">Basic</div>
+                                <div class="text-xl font-bold text-white leading-tight">R$ <span class="price-val" data-monthly="74,90" data-annual="63,65">74,90</span></div>
+                            </th>
+                            
+                            <th class="p-4 bg-[#110a1f] sticky top-20 z-30 text-center font-mono border-b border-brand-500/30 w-[12.5%] min-w-[140px] relative shadow-sm">
+                                <span class="bg-brand-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap mb-2">
+            DESTAQUE
+        </span>
+        <div class="text-xs uppercase tracking-wider text-brand-400 mb-1">Profissional</div>
+                                <div class="text-xl font-bold text-white leading-tight">R$ <span class="price-val" data-monthly="119,90" data-annual="101,90">119,90</span></div>
+                            </th>
+                            
+                            <th class="p-4 bg-[#050505] sticky top-20 z-30 text-center font-mono border-b border-white/10 w-[12.5%] min-w-[140px] shadow-sm">
+                                <div class="text-xs uppercase tracking-wider text-gray-400 mb-1">Business</div>
+                                <div class="text-xl font-bold text-white leading-tight">R$ <span class="price-val" data-monthly="179,90" data-annual="152,90">179,90</span></div>
+                            </th>
+                            
+                            <th class="p-4 bg-[#050505] sticky top-20 z-30 text-center font-mono border-b border-white/10 w-[12.5%] min-w-[140px] shadow-sm">
+                                <div class="text-xs uppercase tracking-wider text-purple-400 mb-1">Premium</div>
+                                <div class="text-xl font-bold text-white leading-tight">R$ <span class="price-val" data-monthly="249,90" data-annual="212,40">249,90</span></div>
+                            </th>
+                            
+                            <th class="p-4 bg-[#050505] sticky top-20 z-30 text-center font-mono border-b border-white/10 w-[12.5%] min-w-[140px] shadow-sm">
+                                <div class="text-xs uppercase tracking-wider text-yellow-500 mb-1">Elite</div>
+                                <div class="text-xl font-bold text-white leading-tight">R$ <span class="price-val" data-monthly="349,90" data-annual="297,40">349,90</span></div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-sm text-gray-300">
+                        
+                        <tr class="bg-white/[0.02]">
+                            <td colspan="7" class="p-3 font-semibold text-white text-xs uppercase tracking-widest sticky left-0 bg-[#0a0a0a] border-y border-white/10">Recursos Principais</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Limite de Imóveis</td>
+                            <td class="p-4 text-center">50</td>
+                            <td class="p-4 text-center">400</td>
+                            <td class="p-4 text-center bg-brand-500/5 font-semibold text-white">1.000</td>
+                            <td class="p-4 text-center">2.000</td>
+                            <td class="p-4 text-center">3.500</td>
+                            <td class="p-4 text-center font-bold text-brand-400">Ilimitado</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Fotos por Imóvel</td>
+                            <td class="p-4 text-center">40</td>
+                            <td class="p-4 text-center">60</td>
+                            <td class="p-4 text-center bg-brand-500/5 font-semibold text-white">Ilimitado</td>
+                            <td class="p-4 text-center text-white">Ilimitado</td>
+                            <td class="p-4 text-center text-white">Ilimitado</td>
+                            <td class="p-4 text-center font-bold text-brand-400">Ilimitado</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Usuários do Sistema</td>
+                            <td class="p-4 text-center">2</td>
+                            <td class="p-4 text-center">5</td>
+                            <td class="p-4 text-center bg-brand-500/5 font-semibold text-white">8</td>
+                            <td class="p-4 text-center">12</td>
+                            <td class="p-4 text-center">20</td>
+                            <td class="p-4 text-center font-bold text-brand-400">Ilimitado</td>
+                        </tr>
+
+                        <tr class="bg-white/[0.02]">
+                            <td colspan="7" class="p-3 font-semibold text-white text-xs uppercase tracking-widest sticky left-0 bg-[#0a0a0a] border-y border-white/10 mt-4">CRM & Gestão Imobiliária</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Funil de Vendas (Kanban)</td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center bg-brand-500/5 text-brand-400"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Esteira de Leads</td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center bg-brand-500/5 text-brand-400"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Gamificação p/ Corretores</td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center bg-brand-500/5 text-brand-400"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500">Avançada</td>
+                            <td class="p-4 text-center text-brand-500">Avançada</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-white sticky left-0 bg-[#050505] font-bold shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Módulo Contratos e Finanças</td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center bg-brand-500/5 text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center font-bold text-green-400"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center font-bold text-green-400"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center font-bold text-green-400"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                        </tr>
+
+                        <tr class="bg-white/[0.02]">
+                            <td colspan="7" class="p-3 font-semibold text-white text-xs uppercase tracking-widest sticky left-0 bg-[#0a0a0a] border-y border-white/10 mt-4">Inteligência Artificial</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Gerador de Descrições (IA)</td>
+                            <td class="p-4 text-center">50/dia</td>
+                            <td class="p-4 text-center">200/dia</td>
+                            <td class="p-4 text-center bg-brand-500/5 font-semibold text-white">600/dia</td>
+                            <td class="p-4 text-center">1.000/dia</td>
+                            <td class="p-4 text-center font-bold text-purple-400">1.450/dia</td>
+                            <td class="p-4 text-center font-bold text-brand-400">Ilimitado</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-white sticky left-0 bg-[#050505] font-bold shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)] flex items-center gap-2"><i data-lucide="bot" class="w-4 h-4 text-purple-400"></i> Assistente Virtual Aura 24/7</td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center bg-brand-500/5 text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center font-bold text-purple-400">Liberada</td>
+                            <td class="p-4 text-center font-bold text-brand-400">Prioridade VIP</td>
+                        </tr>
+
+                        <tr class="bg-white/[0.02]">
+                            <td colspan="7" class="p-3 font-semibold text-white text-xs uppercase tracking-widest sticky left-0 bg-[#0a0a0a] border-y border-white/10 mt-4">Marketing & Integrações</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Site Premium Exclusivo</td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center bg-brand-500/5 text-brand-400"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Integração Portais (Zap, VivaReal)</td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center bg-brand-500/5 text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Automação de E-mail/WhatsApp</td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center bg-brand-500/5 text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">API de Integração Whatsapp/Facebook/Google</td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-gray-600"><i data-lucide="minus" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center bg-brand-500/5 text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                            <td class="p-4 text-center text-brand-500"><i data-lucide="check" class="w-5 h-5 mx-auto"></i></td>
+                        </tr>
+                        
+                        <tr class="bg-white/[0.02]">
+                            <td colspan="7" class="p-3 font-semibold text-white text-xs uppercase tracking-widest sticky left-0 bg-[#0a0a0a] border-y border-white/10 mt-4">Atendimento ao Cliente</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="p-4 text-gray-400 sticky left-0 bg-[#050505] font-medium shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]">Canal de Suporte</td>
+                            <td class="p-4 text-center">Email</td>
+                            <td class="p-4 text-center">Email / Chat</td>
+                            <td class="p-4 text-center bg-brand-500/5 text-white font-medium">Chat Prioritário</td>
+                            <td class="p-4 text-center">WhatsApp</td>
+                            <td class="p-4 text-center">WhatsApp VIP</td>
+                            <td class="p-4 text-center font-bold text-yellow-500">VIP 24/7</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="p-4 sticky left-0 bg-[#050505] shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]"></td>
+                            <td class="p-4 text-center"><button class="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full">Assinar</button></td>
+                            <td class="p-4 text-center"><button class="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full">Assinar</button></td>
+                            <td class="p-4 text-center bg-brand-500/10 rounded-b-xl"><button class="text-xs font-semibold bg-brand-600 text-white rounded px-3 py-1.5 w-full hover:bg-brand-500 transition-colors">Assinar</button></td>
+                            <td class="p-4 text-center"><button class="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full">Assinar</button></td>
+                            <td class="p-4 text-center"><button class="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full">Assinar</button></td>
+                            <td class="p-4 text-center"><button class="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full">Assinar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <i data-lucide="building-2" class="w-6 h-6 text-brand-500"></i>
+                <span class="font-bold text-lg tracking-tight">Imobi<span class="text-brand-500">SaaS</span></span>
+            </div>
+            <p class="text-gray-500 text-sm">© 2026 ImobiSaaS. Todos os direitos reservados.</p>
+            <div class="flex gap-4 text-gray-500">
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Scroll Reveal
+        gsap.utils.toArray('.reveal-up').forEach(elem => {
+            gsap.fromTo(elem, 
+                { y: 50, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 85%",
+                    }
+                }
+            );
+        });
+
+        // Pricing Cards Stagger
+        gsap.fromTo(".pricing-card", 
+            { y: 50, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: "#pricing-grid",
+                    start: "top 80%",
+                }
+            }
+        );
+
+        // Yoyo float on Profissional card
+        gsap.to("#pro-card", {
+            y: -10,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        // Pricing Toggle Logic
+        const toggleBtn = document.getElementById('billing-toggle');
+        const toggleKnob = document.getElementById('toggle-knob');
+        const labelMensal = document.getElementById('label-mensal');
+        const labelAnual = document.getElementById('label-anual');
+        const priceVals = document.querySelectorAll('.price-val');
+        
+        let isAnnual = false;
+
+        toggleBtn.addEventListener('click', () => {
+            isAnnual = !isAnnual;
+            
+            if (isAnnual) {
+                toggleKnob.style.transform = 'translateX(28px)';
+                labelAnual.classList.replace('text-gray-500', 'text-white');
+                labelMensal.classList.replace('text-white', 'text-gray-500');
+                
+                priceVals.forEach(el => {
+                    // Animate number change
+                    gsap.to(el, {
+                        opacity: 0,
+                        y: -10,
+                        duration: 0.2,
+                        onComplete: () => {
+                            el.textContent = el.getAttribute('data-annual');
+                            gsap.to(el, { opacity: 1, y: 0, duration: 0.2 });
+                        }
+                    });
+                });
+            } else {
+                toggleKnob.style.transform = 'translateX(0)';
+                labelMensal.classList.replace('text-gray-500', 'text-white');
+                labelAnual.classList.replace('text-white', 'text-gray-500');
+                
+                priceVals.forEach(el => {
+                    gsap.to(el, {
+                        opacity: 0,
+                        y: 10,
+                        duration: 0.2,
+                        onComplete: () => {
+                            el.textContent = el.getAttribute('data-monthly');
+                            gsap.to(el, { opacity: 1, y: 0, duration: 0.2 });
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
