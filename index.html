@@ -114,16 +114,31 @@
 
     <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <img src="/logo/logo.png" alt="Logo ArkCoder" class="h-12 w-auto object-contain" />
-                <span class="font-bold text-2xl tracking-tight">Ark<span class="text-brand-500">Coder</span></span>
+            <div class="flex items-center gap-3 relative z-50">
+                <img src="/logo/logo.png" alt="Logo ArkCoder" class="h-10 md:h-12 w-auto object-contain" />
+                <span class="font-bold text-xl md:text-2xl tracking-tight">Ark<span class="text-brand-500">Coder</span></span>
             </div>
+            
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
                 <a href="#features" class="hover:text-white transition-colors">Recursos</a>
                 <a href="#pricing" class="hover:text-white transition-colors">Planos</a>
-                <a href="#contact" class="hover:text-white transition-colors">Contato</a>
+                <a href="#compare-plans" class="hover:text-white transition-colors">Comparação</a>
             </div>
-            <button class="bg-white text-black px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
+            
+            <button class="hidden md:block bg-white text-black px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
+                Começar Agora
+            </button>
+
+            <button id="mobile-menu-btn" class="md:hidden text-white p-2 relative z-50">
+                <i data-lucide="menu" class="w-6 h-6" id="menu-icon"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="fixed inset-0 bg-[#050505]/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8 text-lg font-medium transition-all duration-300 opacity-0 pointer-events-none z-40">
+            <a href="#features" class="mobile-link hover:text-brand-500 transition-colors">Recursos</a>
+            <a href="#pricing" class="mobile-link hover:text-brand-500 transition-colors">Planos</a>
+            <a href="#compare-plans" class="mobile-link hover:text-brand-500 transition-colors">Comparação</a>
+            <button class="bg-brand-600 text-white px-8 py-3 rounded-full text-sm font-bold mt-4 shadow-lg shadow-brand-500/20">
                 Começar Agora
             </button>
         </div>
@@ -139,11 +154,11 @@
             Plataforma SaaS + CRM Imobiliário
         </div>
         
-        <h1 class="text-5xl md:text-7xl font-bold tracking-tighter max-w-4xl mb-6 reveal-up" style="line-height: 1.1;">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter max-w-4xl mb-6 reveal-up" style="line-height: 1.1;">
             O Futuro da Gestão Imobiliária é <span class="gradient-text">Inteligente</span>
         </h1>
         
-        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mb-10 reveal-up">
+        <p class="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mb-10 reveal-up px-4">
             Escale suas vendas com um CRM poderoso, gamificação para corretores e IA de atendimento. Tudo em uma plataforma ultra-rápida.
         </p>
         
@@ -638,6 +653,38 @@
                     });
                 });
             }
+        });
+        // Lógica do Menu Mobile
+        const btnMenu = document.getElementById('mobile-menu-btn');
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+                // Troca o ícone para 'X' desenhando um SVG direto para evitar recarregamento
+                btnMenu.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+                document.body.style.overflow = 'hidden'; // Impede o scroll no fundo
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+                btnMenu.innerHTML = `<i data-lucide="menu" class="w-6 h-6"></i>`;
+                lucide.createIcons();
+                document.body.style.overflow = ''; // Restaura o scroll
+            }
+        }
+
+        btnMenu.addEventListener('click', toggleMenu);
+
+        // Fecha o menu ao clicar em um link
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if(isMenuOpen) toggleMenu();
+            });
         });
     </script>
 </body>
