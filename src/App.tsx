@@ -1,91 +1,12 @@
-import React from 'react';
-import { 
-  TrendingUp, 
-  Users, 
-  Building2, 
-  DollarSign,
-  LayoutDashboard
-} from 'lucide-react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
 
 export default function App() {
   return (
-    <div className="bg-[#050505] text-white p-4 md:p-8 font-sans w-full overflow-hidden rounded-2xl">
-      <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
-        
-        {/* Header Simulado Shadcn */}
-        <div className="flex flex-col gap-2 mb-6 md:mb-10">
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Dashboard de Performance</h2>
-          <p className="text-sm md:text-base text-gray-400">Visualize as métricas da sua imobiliária em tempo real.</p>
-        </div>
-
-        {/* Cards de Métricas Principais - Grid responsivo */}
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
-          {[
-            { label: "Receita Total", value: "R$ 45.231,89", icon: DollarSign, trend: "+20.1%" },
-            { label: "Novos Leads", value: "+2350", icon: Users, trend: "+180.1%" },
-            { label: "Vendas", value: "+12.234", icon: Building2, trend: "+19%" },
-            { label: "Ativos", value: "+573", icon: TrendingUp, trend: "+201 desde ontem" },
-          ].map((stat, i) => (
-            <div key={i} className="rounded-xl border border-white/10 bg-[#111] p-5 md:p-6 shadow-sm">
-              <div className="flex flex-row items-center justify-between pb-2">
-                <span className="text-xs md:text-sm font-medium text-gray-400">{stat.label}</span>
-                <stat.icon className="h-4 w-4 text-brand-500" />
-              </div>
-              <div className="text-xl md:text-2xl font-bold">{stat.value}</div>
-              <p className="text-[10px] md:text-xs text-brand-400 mt-1">{stat.trend}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Gráficos e Atividades */}
-        <div className="grid gap-4 grid-cols-1 lg:grid-cols-7">
-          {/* Gráfico de Vendas (Simulado e com scroll no mobile) */}
-          <div className="lg:col-span-4 rounded-xl border border-white/10 bg-[#111] p-4 md:p-6 overflow-hidden">
-            <h3 className="font-semibold mb-6 flex items-center gap-2 text-sm md:text-base">
-              <LayoutDashboard className="w-4 h-4 text-brand-500" /> Visão Geral de Vendas
-            </h3>
-            {/* Adicionado overflow-x-auto para mobile */}
-            <div className="overflow-x-auto pb-2 custom-scrollbar">
-              <div className="h-[200px] md:h-[300px] min-w-[400px] flex items-end justify-between gap-2 px-2">
-                {[40, 70, 45, 90, 65, 55, 80, 95, 40, 60, 85, 75].map((height, i) => (
-                  <div key={i} className="w-full bg-brand-600/20 hover:bg-brand-500 rounded-t-sm transition-all duration-500 relative group" style={{ height: `${height}%` }}>
-                    <div className="absolute -top-6 md:-top-8 left-1/2 -translate-x-1/2 bg-white text-black text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                      {height}k
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="flex justify-between mt-4 text-[9px] md:text-[10px] text-gray-500 font-mono min-w-[400px]">
-                <span>JAN</span><span>MAR</span><span>MAI</span><span>JUL</span><span>SET</span><span>DEZ</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Leads Recentes */}
-          <div className="lg:col-span-3 rounded-xl border border-white/10 bg-[#111] p-4 md:p-6">
-            <h3 className="font-semibold mb-6 text-sm md:text-base">Leads Recentes</h3>
-            <div className="space-y-4 md:space-y-6">
-              {[
-                { name: "Guilherme Silva", email: "gui@email.com", amount: "R$ 1.999,00" },
-                { name: "Ana Souza", email: "ana.s@email.com", amount: "R$ 39,00" },
-                { name: "Roberto Junior", email: "robert@email.com", amount: "R$ 299,00" },
-                { name: "Clara Luz", email: "clara@email.com", amount: "R$ 99,00" },
-              ].map((lead, i) => (
-                <div key={i} className="flex items-center gap-3 md:gap-4">
-                  <div className="h-8 w-8 md:h-9 md:w-9 rounded-full bg-brand-900 flex items-center justify-center text-[10px] md:text-xs font-bold shrink-0">
-                    {lead.name.split(' ').map(n => n[0]).join('')}
-                  </div>
-                  <div className="flex-1 min-w-0 space-y-1">
-                    <p className="text-sm font-medium leading-none truncate">{lead.name}</p>
-                    <p className="text-xs text-gray-500 truncate">{lead.email}</p>
-                  </div>
-                  <div className="font-medium text-xs md:text-sm text-brand-400 shrink-0">{lead.amount}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
