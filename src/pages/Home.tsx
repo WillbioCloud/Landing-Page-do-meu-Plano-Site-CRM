@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -17,53 +17,72 @@ export default function Home() {
   const [isAnnual, setIsAnnual] = useState(false);
   const [activeTab, setActiveTab] = useState('show-p3');
 
+  const heroWords = ['O', 'Futuro', 'da', 'Gestão', 'Imobiliária', 'é'];
+
   useEffect(() => {
-    // Configuração do GSAP no React
     const ctx = gsap.context(() => {
-      // Scroll Reveal
-      gsap.utils.toArray('.reveal-up').forEach((elem: any) => {
-        gsap.fromTo(elem, 
-          { y: 50, opacity: 0 },
+      gsap.utils.toArray<HTMLElement>('.reveal-up').forEach((elem) => {
+        gsap.fromTo(
+          elem,
+          { y: 50, autoAlpha: 0 },
           {
             y: 0,
-            opacity: 1,
+            autoAlpha: 1,
             duration: 1,
-            ease: "power3.out",
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: elem,
-              start: "top 85%",
-            }
-          }
+              start: 'top 85%',
+            },
+          },
         );
       });
 
-      // Pricing Cards Stagger
-      gsap.fromTo(".pricing-card", 
-        { y: 50, opacity: 0 },
+      gsap.fromTo(
+        '.hero-word',
+        { y: 60, autoAlpha: 0 },
         {
           y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: "#pricing-grid",
-            start: "top 80%",
-          }
-        }
+          autoAlpha: 1,
+          duration: 1.1,
+          ease: 'power4.out',
+          stagger: 0.09,
+          delay: 0.15,
+        },
       );
 
-      // Yoyo float no card Profissional
-      gsap.to("#pro-card", {
-        y: -10,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
+      gsap.set('.pricing-card', { autoAlpha: 1 });
+      gsap.fromTo(
+        '.pricing-card',
+        { y: 45, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.85,
+          stagger: 0.1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '#pricing-grid',
+            start: 'top 80%',
+            once: true,
+          },
+        },
+      );
+
+      gsap.fromTo(
+        '#pro-glow',
+        { scale: 0.95, autoAlpha: 0.45 },
+        {
+          scale: 1.06,
+          autoAlpha: 0.85,
+          duration: 2.3,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+        },
+      );
     }, mainRef);
 
-    // Limpeza ao sair da página
     return () => ctx.revert();
   }, []);
 
@@ -80,7 +99,7 @@ export default function Home() {
   const handleStart = () => navigate('/login');
 
   return (
-    <div ref={mainRef} className="bg-[#050505] text-white min-h-screen font-sans overflow-x-hidden selection:bg-brand-500 selection:text-white">
+    <div ref={mainRef} className="bg-[#050505] text-white min-h-screen font-sans selection:bg-brand-500 selection:text-white">
       
       {/* Navbar */}
       <nav className="fixed w-full z-50 glass-nav transition-all duration-300">
@@ -128,8 +147,13 @@ export default function Home() {
           Plataforma SaaS + CRM Imobiliário
         </div>
         
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter max-w-4xl mb-6 reveal-up leading-[1.1]">
-          O Futuro da Gestão Imobiliária é <span className="gradient-text">Inteligente</span>
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter max-w-4xl mb-6 leading-[1.1]" aria-label="O Futuro da Gestão Imobiliária é Inteligente">
+          {heroWords.map((word) => (
+            <span key={word} className="hero-word inline-block mr-3 opacity-0">
+              {word}
+            </span>
+          ))}
+          <span className="hero-word gradient-text inline-block opacity-0">Inteligente</span>
         </h1>
         
         <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mb-10 reveal-up px-4">
@@ -243,8 +267,10 @@ export default function Home() {
             </div>
 
             {/* Profissional */}
-            <div className="border-gradient highlight-card pricing-card p-6 flex flex-col relative transform lg:scale-105 z-10" id="pro-card">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Mais Popular</div>
+            <div className="relative transform lg:scale-105 z-10">
+              <div id="pro-glow" className="glow-effect absolute -inset-3 rounded-[1.2rem] pointer-events-none -z-10" aria-hidden="true" />
+              <div className="border-gradient highlight-card pricing-card p-6 flex flex-col relative" id="pro-card">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Mais Popular</div>
               <div className="text-brand-400 font-mono text-xs mb-2 uppercase tracking-wider">⭐ Profissional</div>
               <div className="text-3xl font-bold mb-2">R$ <span>{prices.pro}</span><span className="text-sm text-gray-500 font-normal">/mês</span></div>
               <p className="text-gray-400 text-sm mb-6 border-b border-white/10 pb-4">Engajamento e domínio de mercado.</p>
@@ -256,7 +282,8 @@ export default function Home() {
                 <li className="flex items-start gap-2"><Target className="w-4 h-4 text-yellow-400 mt-1 shrink-0" /> <span className="text-white font-medium">Módulo de Gamificação<br/><span className="text-xs text-brand-400 font-normal">Motive sua equipe</span></span></li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> Domínio Grátis (1º ano)</li>
               </ul>
-              <button onClick={handleStart} className="w-full py-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white transition-colors font-medium cursor-pointer shadow-lg shadow-brand-500/20">Assinar Profissional</button>
+                <button onClick={handleStart} className="w-full py-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white transition-colors font-medium cursor-pointer shadow-lg shadow-brand-500/20">Assinar Profissional</button>
+              </div>
             </div>
 
             {/* Business */}
