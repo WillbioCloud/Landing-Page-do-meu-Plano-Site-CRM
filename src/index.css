@@ -43,6 +43,12 @@
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
+
+.glow-effect {
+  background: radial-gradient(circle at 20% 20%, rgba(192, 132, 252, 0.5), rgba(139, 92, 246, 0.25) 45%, rgba(11, 11, 11, 0.1) 80%);
+  filter: blur(24px);
+  opacity: 0.65;
+}
 .custom-scrollbar::-webkit-scrollbar {
   height: 6px;
 }
