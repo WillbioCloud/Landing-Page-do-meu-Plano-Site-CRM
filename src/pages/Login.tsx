@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { createClient } from '@supabase/supabase-js';
-import { ArrowRight, Loader2, LogIn, MailCheck, UserCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Loader2, LogIn, UserCircle } from 'lucide-react';
 
 export default function Login() {
   const navigate = useNavigate();
+  const Maps = (path: string) => navigate(path);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [isLoginMode, setIsLoginMode] = useState(false);
@@ -193,15 +194,14 @@ export default function Login() {
           ) : signupSuccess ? (
             <div className="anim-content max-w-xl mx-auto flex flex-col items-center justify-center text-center min-h-[320px]">
               <div className="w-16 h-16 bg-brand-500/10 border border-brand-500/20 rounded-2xl flex items-center justify-center mb-6 text-brand-400">
-                <MailCheck className="w-8 h-8" />
+                <CheckCircle className="w-8 h-8" />
               </div>
               <h2 className="text-3xl font-bold mb-4">Conta criada com sucesso! 🎉</h2>
               <p className="text-gray-300 mb-10 leading-relaxed">
-                Enviámos um link de confirmação para o seu e-mail. Clique no link para validar o seu acesso e entrar no seu novo
-                CRM.
+                Enviámos um link de confirmação para o seu e-mail. Clique no link para validar a sua conta e acessar o CRM.
               </p>
               <button
-                onClick={() => navigate('/')}
+                onClick={() => Maps('/')}
                 className="bg-brand-600 hover:bg-brand-500 text-white rounded-xl px-8 py-4 font-bold transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(139,92,246,0.2)]"
               >
                 Voltar ao Início <ArrowRight className="w-5 h-5" />
