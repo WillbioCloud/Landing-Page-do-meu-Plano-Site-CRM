@@ -96,7 +96,8 @@ export default function Home() {
     elite: isAnnual ? "297,40" : "349,90",
   };
 
-  const handleStart = () => navigate('/login');
+  // Agora a função recebe o nome do plano e passa para a página de Login!
+  const handleStart = (planName: string) => navigate('/login', { state: { plan: planName } });
 
   return (
     <div ref={mainRef} className="bg-[#050505] text-white min-h-screen font-sans selection:bg-brand-500 selection:text-white">
@@ -116,7 +117,7 @@ export default function Home() {
             <a href="#compare-plans" className="hover:text-white transition-colors">Comparação</a>
           </div>
           
-          <button onClick={handleStart} className="hidden md:block bg-white text-black px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
+          <button onClick={ () => handleStart("starter")} className="hidden md:block bg-white text-black px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
             Começar Agora
           </button>
 
@@ -130,7 +131,7 @@ export default function Home() {
           <a href="#features" onClick={() => setIsMenuOpen(false)} className="hover:text-brand-500 transition-colors">Recursos</a>
           <a href="#pricing" onClick={() => setIsMenuOpen(false)} className="hover:text-brand-500 transition-colors">Planos</a>
           <a href="#compare-plans" onClick={() => setIsMenuOpen(false)} className="hover:text-brand-500 transition-colors">Comparação</a>
-          <button onClick={handleStart} className="bg-brand-600 text-white px-8 py-3 rounded-full text-sm font-bold mt-4 shadow-lg shadow-brand-500/20">
+          <button onClick={ () => handleStart("starter")} className="bg-brand-600 text-white px-8 py-3 rounded-full text-sm font-bold mt-4 shadow-lg shadow-brand-500/20">
             Começar Agora
           </button>
         </div>
@@ -247,7 +248,7 @@ export default function Home() {
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> <strong className="text-white">50</strong> Descrições com IA</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> Site Premium Exclusivo</li>
               </ul>
-              <button onClick={handleStart} className="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Começar Starter</button>
+              <button onClick={() => handleStart("starter")} className="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Começar Starter</button>
             </div>
 
             {/* Basic */}
@@ -263,7 +264,7 @@ export default function Home() {
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> CRM Kanban Integrado</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> Esteira de Leads</li>
               </ul>
-              <button onClick={handleStart} className="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Começar Basic</button>
+              <button onClick={() => handleStart("basic")} className="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Começar Basic</button>
             </div>
 
             {/* Profissional */}
@@ -282,7 +283,7 @@ export default function Home() {
                 <li className="flex items-start gap-2"><Target className="w-4 h-4 text-yellow-400 mt-1 shrink-0" /> <span className="text-white font-medium">Módulo de Gamificação<br/><span className="text-xs text-brand-400 font-normal">Motive sua equipe</span></span></li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> Domínio Grátis (1º ano)</li>
               </ul>
-                <button onClick={handleStart} className="w-full py-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white transition-colors font-medium cursor-pointer shadow-lg shadow-brand-500/20">Assinar Profissional</button>
+                <button onClick={() => handleStart("professional")} className="w-full py-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-white transition-colors font-medium cursor-pointer shadow-lg shadow-brand-500/20">Assinar Profissional</button>
               </div>
             </div>
 
@@ -299,7 +300,7 @@ export default function Home() {
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> Dashboard Financeiro</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> Automação E-mail/WhatsApp</li>
               </ul>
-              <button onClick={handleStart} className="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Assinar Business</button>
+              <button onClick={() => handleStart("business")} className="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Assinar Business</button>
             </div>
 
             {/* Premium */}
@@ -315,7 +316,7 @@ export default function Home() {
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> Módulo de Contratos Completo</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> API de Integração Avançada</li>
               </ul>
-              <button onClick={handleStart} className="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Assinar Premium</button>
+              <button onClick={() => handleStart("premium")} className="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Assinar Premium</button>
             </div>
 
             {/* Elite */}
@@ -331,7 +332,7 @@ export default function Home() {
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-brand-500" /> Contratos, Finanças e Gamificação</li>
                 <li className="flex items-start gap-2"><Headset className="w-4 h-4 text-brand-500 mt-1 shrink-0" /> <span className="text-white font-medium">Suporte VIP 24h<br/><span className="text-xs text-gray-400 font-normal">Atendimento no WhatsApp</span></span></li>
               </ul>
-              <button onClick={handleStart} className="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Assinar Elite</button>
+              <button onClick={() => handleStart("elite")} className="w-full py-3 rounded-lg border border-white/10 hover:bg-white/5 transition-colors font-medium cursor-pointer">Assinar Elite</button>
             </div>
 
           </div>
@@ -568,12 +569,12 @@ export default function Home() {
                 
                 <tr>
                   <td className="p-4 sticky left-0 bg-[#050505] shadow-[4px_0_24px_-10px_rgba(0,0,0,0.8)]"></td>
-                  <td className="p-4 text-center"><button onClick={handleStart} className="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full cursor-pointer">Assinar</button></td>
-                  <td className="p-4 text-center"><button onClick={handleStart} className="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full cursor-pointer">Assinar</button></td>
-                  <td className="p-4 text-center bg-brand-500/10 rounded-b-xl"><button onClick={handleStart} className="text-xs font-semibold bg-brand-600 text-white rounded px-3 py-1.5 w-full hover:bg-brand-500 transition-colors cursor-pointer">Assinar</button></td>
-                  <td className="p-4 text-center"><button onClick={handleStart} className="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full cursor-pointer">Assinar</button></td>
-                  <td className="p-4 text-center"><button onClick={handleStart} className="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full cursor-pointer">Assinar</button></td>
-                  <td className="p-4 text-center"><button onClick={handleStart} className="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full cursor-pointer">Assinar</button></td>
+                  <td className="p-4 text-center"><button onClick={() => handleStart("starter")} className="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full cursor-pointer">Assinar</button></td>
+                  <td className="p-4 text-center"><button onClick={() => handleStart("basic")} className="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full cursor-pointer">Assinar</button></td>
+                  <td className="p-4 text-center bg-brand-500/10 rounded-b-xl"><button onClick={() => handleStart("profissional")} className="text-xs font-semibold bg-brand-600 text-white rounded px-3 py-1.5 w-full hover:bg-brand-500 transition-colors cursor-pointer">Assinar</button></td>
+                  <td className="p-4 text-center"><button onClick={() => handleStart("business")} className="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full cursor-pointer">Assinar</button></td>
+                  <td className="p-4 text-center"><button onClick={() => handleStart("premium")} className="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full cursor-pointer">Assinar</button></td>
+                  <td className="p-4 text-center"><button onClick={() => handleStart("elite")} className="text-xs font-semibold hover:text-white transition-colors border border-white/20 rounded px-3 py-1.5 w-full cursor-pointer">Assinar</button></td>
                 </tr>
               </tbody>
             </table>
