@@ -19,8 +19,6 @@ export default function Login() {
     password: '',
   });
 
-  const viteEnv = import.meta as ImportMeta & { env: Record<string, string | undefined> };
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -39,8 +37,8 @@ export default function Login() {
     setErrorMsg('');
 
     try {
-      const supabaseUrl = viteEnv.env.VITE_SUPABASE_URL;
-      const anonKey = viteEnv.env.VITE_SUPABASE_ANON_KEY;
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
       if (!supabaseUrl || !anonKey) throw new Error('Chaves do servidor em falta.');
 
@@ -71,8 +69,8 @@ export default function Login() {
     setErrorMsg('');
 
     try {
-      const supabaseUrl = viteEnv.env.VITE_SUPABASE_URL;
-      const anonKey = viteEnv.env.VITE_SUPABASE_ANON_KEY;
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
       if (!supabaseUrl || !anonKey) throw new Error('Chaves do servidor em falta.');
 
