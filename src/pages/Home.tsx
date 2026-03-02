@@ -107,8 +107,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3 relative z-50">
             {/* Certifique-se de que a logo está na pasta public/logo/ */}
-            <img src="/logo/logo.png" alt="Logo ArkCoder" className="h-10 md:h-12 w-auto object-contain" />
-            <span className="font-bold text-xl md:text-2xl tracking-tight">Ark<span className="text-brand-500">Coder</span></span>
+            <img src="/logo/logo.png" alt="Logo Elevatio Vendas" className="h-10 md:h-12 w-auto object-contain" />
+            <span className="font-bold text-xl md:text-2xl tracking-tight">Elevatio<span className="text-brand-500"> Vendas</span></span>
           </div>
           
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
@@ -141,7 +141,7 @@ export default function Home() {
       <section className="relative pt-40 pb-20 px-6 flex flex-col items-center text-center min-h-screen justify-center">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-600/20 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
         
-        <img src="/logo/LogoText.png" alt="ArkCoder" className="h-18 md:h-24 w-auto object-contain mb-8 reveal-up" />
+        <img src="/logo/LogoText.png" alt="Elevatio Vendas" className="h-18 md:h-24 w-auto object-contain mb-8 reveal-up" />
 
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-brand-400 mb-8 reveal-up">
           <span className="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
@@ -586,10 +586,10 @@ export default function Home() {
       <footer className="border-t border-white/10 py-12 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-            <img src="/logo/logo.png" alt="Logo ArkCoder" className="h-10 w-auto object-contain" />
-            <span className="font-bold text-xl tracking-tight">Ark<span className="text-brand-500">Coder</span></span>
+            <img src="/logo/logo.png" alt="Logo Elevatio Vendas" className="h-10 w-auto object-contain" />
+            <span className="font-bold text-xl tracking-tight">Elevatio<span className="text-brand-500"> Vendas</span></span>
           </div>
-          <p className="text-gray-500 text-sm">© 2026 ArkCoder. Todos os direitos reservados.</p>
+          <p className="text-gray-500 text-sm">© 2026 Elevatio Vendas. Todos os direitos reservados.</p>
           <div className="flex gap-4 text-gray-500">
             <a href="#" className="hover:text-white transition-colors"><Twitter className="w-5 h-5" /></a>
             <a href="#" className="hover:text-white transition-colors"><Instagram className="w-5 h-5" /></a>
